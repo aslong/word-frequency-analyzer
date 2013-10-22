@@ -1,4 +1,4 @@
-BinarySearchTree = require('binary-search-tree').BinarySearchTree
+{ AVLTree, BinarySearchTree } = require('binary-search-tree')
 
 # Append all elements in toAppend to array
 append = (array, toAppend, maxSize) ->
@@ -6,6 +6,9 @@ append = (array, toAppend, maxSize) ->
 
   for item in toAppend
     array.push(item) if array.length < maxSize
+
+AVLTree.prototype.betweenBoundsReverseTillCount = () ->
+  return this.tree.betweenBoundsReverseTillCount.apply(this.tree, arguments)
 
 BinarySearchTree.prototype.betweenBoundsReverseTillCount = (query, count, lbm, ubm) ->
   res = []
@@ -25,4 +28,4 @@ BinarySearchTree.prototype.betweenBoundsReverseTillCount = (query, count, lbm, u
 
   return res
 
-module.exports = BinarySearchTree
+module.exports.AVLTree = AVLTree
