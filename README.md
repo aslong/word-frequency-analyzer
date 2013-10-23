@@ -1,4 +1,4 @@
-Document Word Frequency
+Word Frequency Analyzer
 ===
 
 [![Build Status](https://travis-ci.org/aslong/word-frequency-analyzer.png?branch=master)](https://travis-ci.org/aslong/word-frequency-analyzer)
