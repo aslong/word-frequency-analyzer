@@ -7,7 +7,6 @@ _                     = require('underscore')
 # WordFrequencyAnalyzer Spec
 #
 describe 'WordFrequencyAnalyzer Spec', ->
-
   describe 'Error Handling', () ->
     it 'should throw an exception if both args are not defined', () ->
       (() -> WordFrequencyAnalyzer.analyzeDocument()).should.throw(ERRORS.MISSING_DOCUMENT_PARAM())
@@ -18,17 +17,17 @@ describe 'WordFrequencyAnalyzer Spec', ->
   describe 'Analysis Validation', () ->
     describe 'word recognition', () ->
       it 'should return a word with punction before or after as still being the same word', () ->
-        words = ["surround.", ".surround", " surround", ".surround.", ". surround"]
+        words = ["surround.", ".surround", " surround", ".surround.", ". surround", "'surround'"]
         document = words.join(' ')
-        wordList = WordFrequencyAnalyzer.analyzeDocument(document, 5)
+        wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 5, { extractFullRootWord: true })
         _.isArray(wordList).should.eql.true
         wordList.should.have.length(1)
         wordList.should.include('surround')
 
       it 'should return a word with different punction before or after as still being the same word', () ->
-        words = ["different?", "!different", " different", ".different!", "! different"]
+        words = ["different?", "!different", " different", ".different!", "! different", "'different"]
         document = words.join(' ')
-        wordList = WordFrequencyAnalyzer.analyzeDocument(document, 5)
+        wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 5, { extractFullRootWord: true })
         _.isArray(wordList).should.eql.true
         wordList.should.have.length(1)
         wordList.should.include('different')
@@ -83,7 +82,7 @@ describe 'WordFrequencyAnalyzer Spec', ->
 
       it 'should return all the words in a multi word document with a complex punctuation duplicates', () ->
         document = "Test the document. Document's can be tricky to parse"
-        wordList = WordFrequencyAnalyzer.analyzeDocument(document, 3)
+        wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 3, { extractFullRootWord: true })
         wordList.should.have.length(3)
         wordList[0].should.eql('document')
         wordList[1].should.eql('test')
