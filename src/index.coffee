@@ -1,4 +1,4 @@
 debug = require('debug')('wfa:index')
 WordFrequencyAnalyzer = require('./word_frequency_analyzer')
 
-WordFrequencyAnalyzer.analyzeDocument()
+debug(JSON.stringify(WordFrequencyAnalyzer.analyzeDocument("hi")))

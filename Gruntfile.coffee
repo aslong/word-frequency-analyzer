@@ -7,7 +7,7 @@ module.exports = (grunt) ->
     coffee:
       compile:
         expand: true
-        flatten: true
+        flatten: false
         cwd: 'src'
         src: ['**/*.coffee']
         dest: 'bin/src/'
@@ -50,9 +50,9 @@ module.exports = (grunt) ->
   grunt.registerTask('test:perf', ['mochacli:perf'])
 
   grunt.registerTask('start', "Boot up the word analyzer's web server", () ->
-    grunt.task.run('coffee:compile', 'connect:server:keepalive')
+    grunt.task.run('coffee:compile', 'exec:start_service')
   )
 
   grunt.registerTask('restart', "Clean and Boot up the word analyzer's web server", () ->
-    grunt.task.run('clean', 'coffee:compile', 'connect:server:keepalive')
+    grunt.task.run('clean', 'coffee:compile', 'exec:start_service')
   )
