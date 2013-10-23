@@ -19,11 +19,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  config.vm.network :forwarded_port, guest: 9000, host: 9000
+  config.vm.network :forwarded_port, guest: 4000, host: 9000
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network :private_network, ip: "33.33.33.10"
+  #config.vm.network :private_network, ip: "33.33.33.10"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -33,24 +33,27 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
   # config.ssh.forward_agent = true
+  #config.ssh.username = "deployer"
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder ".", "/project"
+  config.vm.synced_folder ".", "/home/vagrant/word_frequency_analyzer", :mount_options => ["dmode=777","fmode=776"]
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
   #
-  # config.vm.provider :virtualbox do |vb|
+  config.vm.provider :virtualbox do |vb|
   #   # Don't boot with headless mode
   #   vb.gui = true
   #
-  #   # Use VBoxManage to customize the VM. For example to change memory:
-  #   vb.customize ["modifyvm", :id, "--memory", "1024"]
-  # end
+  # # Use VBoxManage to customize the VM. For example to change number of default cpus:
+    if not RUBY_PLATFORM.downcase.include?("mswin")
+      vb.customize ["modifyvm", :id, "--cpus", `awk "/^processor/ {++n} END {print n}" /proc/cpuinfo 2> /dev/null || sh -c 'sysctl hw.logicalcpu 2> /dev/null || echo ": 2"' | awk \'{print \$2}\' `.chomp ]
+    end
+  end
   #
   # View the documentation for the provider you're using for more
   # information on available options.
@@ -82,15 +85,36 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # path, and data_bags path (all relative to this Vagrantfile), and adding
   # some recipes and/or roles.
   #
-  config.vm.provision :chef_solo do |chef|
-    chef.cookbooks_path = "./deploy/cookbooks"
+  #config.vm.provision :chef_solo do |chef|
+  #  chef.cookbooks_path = "./deploy/cookbooks"
   # chef.roles_path = "../my-recipes/roles"
   # chef.data_bags_path = "../my-recipes/data_bags"
-    chef.add_recipe "nodejs"
+  #  chef.add_recipe "nodejs"
   #   chef.add_role "web"
   #
   #   # You may also specify custom JSON attributes:
   #   chef.json = { :mysql_password => "foo" }
+  #end
+
+  # The path to the Berksfile to use with Vagrant Berkshelf
+  config.berkshelf.berksfile_path = "./deploy/cookbooks/word_frequency_analyzer/Berksfile"
+
+  # Enabling the Berkshelf plugin. To enable this globally, add this configuration
+  # option to your ~/.vagrant.d/Vagrantfile file
+  config.berkshelf.enabled = true
+
+  # An array of symbols representing groups of cookbook described in the Vagrantfile
+  # to exclusively install and copy to Vagrant's shelf.
+  # config.berkshelf.only = []
+
+  # An array of symbols representing groups of cookbook described in the Vagrantfile
+  # to skip installing and copying to Vagrant's shelf.
+  # config.berkshelf.except = []
+
+  config.vm.provision :chef_solo do |chef|
+    chef.run_list = [
+        "recipe[word_frequency_analyzer::default]"
+    ]
   end
 
   # Enable provisioning with chef server, specifying the chef server URL,

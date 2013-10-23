@@ -16,9 +16,10 @@ module.exports = (grunt) ->
     connect:
       server:
         options:
-          port: 9000
+          port: 4000
           base: 'public'
-          open: true
+          debug: true
+          hostname: '*'
 
     exec:
       start_service:
@@ -29,12 +30,13 @@ module.exports = (grunt) ->
     mochacli:
       options:
         reporter: 'spec'
-      all: ['test/unit/**/*.coffee']
+      unit: ['test/unit/**/*.coffee']
+      perf: ['test/perf/**/*.coffee']
 
     watch:
       tdd:
         files: ['test/unit/**/*.coffee', 'src/**/*.coffee']
-        tasks: 'test'
+        tasks: 'test:unit'
 
   grunt.loadNpmTasks('grunt-exec')
   grunt.loadNpmTasks('grunt-contrib-clean')
@@ -44,11 +46,13 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks('grunt-mocha-cli')
 
   grunt.registerTask('test', ['mochacli'])
+  grunt.registerTask('test:unit', ['mochacli:unit'])
+  grunt.registerTask('test:perf', ['mochacli:perf'])
 
   grunt.registerTask('start', "Boot up the word analyzer's web server", () ->
     grunt.task.run('coffee:compile', 'connect:server:keepalive')
   )
 
-  grunt.registerTask('restart', "Boot up the word analyzer's web server", () ->
+  grunt.registerTask('restart', "Clean and Boot up the word analyzer's web server", () ->
     grunt.task.run('clean', 'coffee:compile', 'connect:server:keepalive')
   )
