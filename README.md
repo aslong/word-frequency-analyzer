@@ -18,7 +18,12 @@ be re-enabled in the [Vagrantfile](https://github.com/aslong/word-frequency-anal
 The word frequency analyzer uses [Vagrant](http://www.vagrantup.com/) for building an isolated environment necessary for usage and development.
 Vagrant uses [VirtualBox](https://www.virtualbox.org/) to create VMs programmatically.
 
+1. [Install](https://www.virtualbox.org/wiki/Downloads) VirtualBox for your OS.
+1. [Install](http://downloads.vagrantup.com/) Vagrant for your OS.
+
 ```
+$ git clone git@github.com:aslong/word-frequency-analyzer.git
+$ cd word-frequency-analyzer
 $ vagrant up
 ```
 
@@ -33,37 +38,40 @@ $ cd word_frequency_analyzer
 
 #### Running Tests
 
-All Test Suites:  
+```grunt``` is the primary command to use when running the various test suites. The suites are made up of unit and performance tests.
+You can run any suite in isolation or all together. There is also a watch mode that can be used to re-run the tests on file updates.
+
+**All Test Suites:**  
 
 ```
 $ grunt test
 ```
 
-All Test Suites (re-run on changes):  
+**All Test Suites (re-run on file updates):**  
 
 ```
 $ grunt watch:tdd
 ```
 
-Unit Test Suite:  
+**Unit Test Suite:**  
 
 ```
 $ grunt test:unit
 ```
 
-Unit Test Suite (re-run on changes):  
+**Unit Test Suite (re-run on file updates):**  
 
 ```
 $ grunt watch:unit
 ```
 
-Perf Test Suite:  
+**Perf Test Suite:**  
 
 ```
 $ grunt test:perf
 ```
 
-Perf Test Suite (re-run on changes):  
+**Perf Test Suite (re-run on file updates):**  
 
 ```
 $ grunt watch:perf
@@ -71,28 +79,32 @@ $ grunt watch:perf
 
 #### Running Service
 
-Starting:  
+**Starting:**  
 
 ```
 $ grunt start
 ```
+Compiles the source, and starts the node.js service.
 
-Restarting:  
+**Restarting:**  
 
 ```
 $ grunt restart
 ```
+Cleans the bin directory, compiles the source, and starts the node.js service.
 
 #### Building Documentation
 
-Generate and start documentation server:  
+**Generate documentation and start doc server:**  
 
 ```
 $ grunt docs
 ```
+After running, visit [here](http://localhost:9000) to view the documentation.  
 
-Watch and generate new docs on change:  
+**Watch and generate new docs on change:**  
 
 ```
 $ grunt watch:docs
 ```
+Anytime a source file is updated the docs for it will be regenerated. You should only have to refresh your browser if you have ```grunt docs``` also running.
