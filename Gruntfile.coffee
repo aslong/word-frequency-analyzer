@@ -17,7 +17,7 @@ module.exports = (grunt) ->
       server:
         options:
           port: 4000
-          base: 'public'
+          base: 'docs'
           debug: true
           hostname: '*'
 
@@ -41,16 +41,28 @@ module.exports = (grunt) ->
         files: ['test/perf/**/*.coffee', 'src/**/*.coffee']
         tasks: 'test:perf'
 
+    yuidoc:
+      compile:
+        name: '<%= pkg.name %>'
+        description: '<%= pkg.description %>'
+        version: '<%= pkg.version %>'
+        url: '<%= pkg.homepage %>'
+        options:
+          paths: 'src/'
+          outdir: 'docs'
+
   grunt.loadNpmTasks('grunt-exec')
   grunt.loadNpmTasks('grunt-contrib-clean')
   grunt.loadNpmTasks('grunt-contrib-coffee')
   grunt.loadNpmTasks('grunt-contrib-connect')
   grunt.loadNpmTasks('grunt-contrib-watch')
   grunt.loadNpmTasks('grunt-mocha-cli')
+  grunt.loadNpmTasks('grunt-contrib-yuidoc')
 
   grunt.registerTask('test', ['mochacli'])
   grunt.registerTask('test:unit', ['mochacli:unit'])
   grunt.registerTask('test:perf', ['mochacli:perf'])
+  grunt.registerTask('docs', ['yuidoc', 'connect:server:keepalive'])
 
   grunt.registerTask('start', "Boot up the word analyzer's web server", () ->
     grunt.task.run('coffee:compile', 'exec:start_service')
