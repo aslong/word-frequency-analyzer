@@ -37,6 +37,9 @@ module.exports = (grunt) ->
       tdd:
         files: ['test/unit/**/*.coffee', 'src/**/*.coffee']
         tasks: 'test:unit'
+      perf:
+        files: ['test/perf/**/*.coffee', 'src/**/*.coffee']
+        tasks: 'test:perf'
 
   grunt.loadNpmTasks('grunt-exec')
   grunt.loadNpmTasks('grunt-contrib-clean')

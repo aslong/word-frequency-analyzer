@@ -5,7 +5,10 @@ append = (array, toAppend, maxSize) ->
   i = 0
 
   for item in toAppend
-    array.push(item) if array.length < maxSize
+    if array.length < maxSize
+      array.push(item)
+    else
+      return
 
 AVLTree.prototype.betweenBoundsReverseTillCount = () ->
   return this.tree.betweenBoundsReverseTillCount.apply(this.tree, arguments)

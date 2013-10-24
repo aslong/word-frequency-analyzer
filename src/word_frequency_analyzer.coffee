@@ -8,6 +8,7 @@ _           = require('underscore')
 class WordFrequencyAnalyzer
   constructor: (options={}) ->
     @language = options.language ? 'EN'
+    @caseSensitivityEnabled = options.caseSensitivityEnabled ? false
     @filterStopWordsEnabled = options.filterStopWords ? false
     @extractFullRootWordEnabled = options.extractFullRootWord ? false
 
@@ -60,7 +61,10 @@ class WordFrequencyAnalyzer
     }
 
   extractRootWord: (documentString, startPos, endPos) =>
-    word = documentString.substring(startPos, endPos).toLowerCase()
+    word = documentString.substring(startPos, endPos)
+
+    if @caseSensitivityEnabled
+      word = word.toLowerCase()
 
     if @extractFullRootWordEnabled
       word = @extractModifiersFromRootWord(word)

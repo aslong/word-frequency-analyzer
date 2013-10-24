@@ -35,7 +35,7 @@ describe 'WordFrequencyAnalyzer Spec', ->
       it 'should return a word with odd casing as being the same word', () ->
         words = ["Same", "same", "saMe", "saME", "samE"]
         document = words.join(' ')
-        wordList = WordFrequencyAnalyzer.analyzeDocument(document, 5)
+        wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 5, { caseSensitivityEnabled: true })
         _.isArray(wordList).should.eql.true
         wordList.should.have.length(1)
         wordList.should.include('same')
@@ -50,20 +50,20 @@ describe 'WordFrequencyAnalyzer Spec', ->
         document = 'Test'
         wordList = WordFrequencyAnalyzer.analyzeDocument(document, 5)
         wordList.should.have.length(1)
-        wordList[0].should.eql('test')
+        wordList[0].should.eql('Test')
 
       it 'should return all the words in a multi word document without duplicates', () ->
         words = ["Test", "the", "document"]
         document = words.join(' ')
         wordList = WordFrequencyAnalyzer.analyzeDocument(document, 5)
         wordList.should.have.length(3)
-        wordList[0].should.eql(words[0].toLowerCase())
-        wordList[1].should.eql(words[1].toLowerCase())
-        wordList[2].should.eql(words[2].toLowerCase())
+        wordList[0].should.eql(words[0])
+        wordList[1].should.eql(words[1])
+        wordList[2].should.eql(words[2])
 
       it 'should return all the words in a multi word document with one duplicate', () ->
         document = "Notebooks are fun. Fun for many."
-        wordList = WordFrequencyAnalyzer.analyzeDocument(document, 5)
+        wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 5, { caseSensitivityEnabled: true })
         wordList.should.have.length(5)
         wordList[0].should.eql('fun')
         wordList[1].should.eql('notebooks')
@@ -73,7 +73,7 @@ describe 'WordFrequencyAnalyzer Spec', ->
 
       it 'should return all the words in a multi word document with multiple duplicates', () ->
         document = "Notebooks are fun. Fun for many. Fun for  all."
-        wordList = WordFrequencyAnalyzer.analyzeDocument(document, 4)
+        wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 4, { caseSensitivityEnabled: true })
         wordList.should.have.length(4)
         wordList[0].should.eql('fun')
         wordList[1].should.eql('for')
@@ -82,7 +82,7 @@ describe 'WordFrequencyAnalyzer Spec', ->
 
       it 'should return all the words in a multi word document with a complex punctuation duplicates', () ->
         document = "Test the document. Document's can be tricky to parse"
-        wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 3, { extractFullRootWord: true })
+        wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 3, { caseSensitivityEnabled: true, extractFullRootWord: true })
         wordList.should.have.length(3)
         wordList[0].should.eql('document')
         wordList[1].should.eql('test')
@@ -98,7 +98,7 @@ describe 'WordFrequencyAnalyzer Spec', ->
         document = 'Test'
         wordList = WordFrequencyAnalyzer.analyzeDocument(document)
         wordList.should.have.length(1)
-        wordList[0].should.eql('test')
+        wordList[0].should.eql('Test')
 
       it 'should return all the words in a single word document with a trailing space', () ->
         document = "test "
@@ -110,6 +110,6 @@ describe 'WordFrequencyAnalyzer Spec', ->
         document = "Test the document"
         wordList = WordFrequencyAnalyzer.analyzeDocument(document)
         wordList.should.have.length(3)
-        wordList[0].should.eql('test')
+        wordList[0].should.eql('Test')
         wordList[1].should.eql('the')
         wordList[2].should.eql('document')
