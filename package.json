@@ -1,5 +1,6 @@
 {
   "name": "WordFrequencyAnalyzer",
+  "description": "Given a document as a string, return a list of the most frequently used words sorted by frequency.",
   "version": "0.0.1",
   "main": "./src/index.js",
   "repository": {

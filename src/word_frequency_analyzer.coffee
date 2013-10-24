@@ -5,6 +5,21 @@ _           = require('underscore')
 
 { STOP_CHAR_HASH, STOP_WORD_FILTER_HASH, WORD_STEM_AND_MODIFIER_REGEXP } = require('./constants/word_frequency_analyzer')
 
+###*
+# Analyzer that takes a string of text and parses the words from it and records their frequency.
+#
+# @class WordFrequencyAnalyzer
+# @module WordFrequencyAnalyzer
+# @constructor
+# @param {object} options defines parsing options to the analyzer
+#   @param {string} options.language (default: 'EN') defines the language of the words in the document
+#   @param {boolean} options.caseSensitivityEnabled (default: false) tells the parser to ignore case when determining 
+#     if two words are the same word
+#   @param {boolean} options.filterStopWords (default: false) tells the parser to remove stop words from the frequency
+#     analysis
+#   @param {boolean} options.extractFullRootWord (default: false) tells the parser to extract the root word when
+#     determining whether words are the same
+###
 class WordFrequencyAnalyzer
   constructor: (options={}) ->
     @language = options.language ? 'EN'
@@ -16,6 +31,20 @@ class WordFrequencyAnalyzer
     @LOCALIZED_STOP_WORD_HASH = STOP_WORD_FILTER_HASH(@language)
     @LOCALIZED_WORD_STEM_AND_MODIFIER_REGEXP = WORD_STEM_AND_MODIFIER_REGEXP(@language)
 
+  ###*
+  # Given a document represented as a string return a list of the most frequently used words in the document,
+  # sorted by frequency from high to low. Can specify as the second parameter the number of words to return in 
+  # the list.
+  #
+  # @method analyzeDocument
+  # @param {string} documentString A string of test to parse and analyze for word frequency
+  # @param {number} desiredWordListLengthByFrequency The max length of the returned word list
+  # @return {object} 
+  #   * <b>sortedWordsByFrequency</b> {array} The list of words that occurred in the documentString, sorted by frequency
+  #   * <b>wordFrequencyTree</b> {tree} Tree structure where each node's key is the frequency and the values are words with
+  #     that frequency
+  #   * <b>wordFrequencyHash</b> {hash} Hash structure who's keys are words and values are frequencies.
+  ###
   analyzeDocument: (documentString, desiredWordListLengthByFrequency) =>
     if not documentString?
       throw new Error(ERRORS.MISSING_DOCUMENT_PARAM())
@@ -37,14 +66,14 @@ class WordFrequencyAnalyzer
         # Check to see if we have seen any valid characters when processing the current word. If we haven't,
         # we shouldn't parse the chars out and try to process something that is probably garbage characters.
         if nonStopCharFound
-          newWord = @extractRootWord(documentString, startPos, currentIndex)
+          newWord = @extractWord(documentString, startPos, currentIndex)
         # Reset our word start pointer to find the next word. Also set that we haven't seen a valid word char.
         startPos = currentIndex + 1
         nonStopCharFound = false
       # Are we at the end of the document but haven't found the end of a word, if so this must be the end of
       # the last word in the whole document.
       else if (currentIndex + 1 is documentCharCount)
-        newWord = @extractRootWord(documentString, startPos, documentCharCount)
+        newWord = @extractWord(documentString, startPos, documentCharCount)
       else
         nonStopCharFound = true
 
@@ -60,14 +89,24 @@ class WordFrequencyAnalyzer
       wordFrequencyHash
     }
 
-  extractRootWord: (documentString, startPos, endPos) =>
-    word = documentString.substring(startPos, endPos)
+  ###*
+  # Given a string, start index, and end index, extract the word from the string and apply any parsing options enabled
+  # for the current analyzer.
+  #
+  # @method extractWord
+  # @param {string} documentString
+  # @param {number} startIndex
+  # @param {number} endIndex
+  # @return {string} The extracted word with any parsing options applied
+  ###
+  extractWord: (documentString, startIndex, endIndex) =>
+    word = documentString.substring(startIndex, endIndex)
 
     if @caseSensitivityEnabled
       word = word.toLowerCase()
 
     if @extractFullRootWordEnabled
-      word = @extractModifiersFromRootWord(word)
+      word = @extractModifiersFromWord(word)
 
     if @filterStopWordsEnabled
       word = @filterStopWord(word)
@@ -77,12 +116,26 @@ class WordFrequencyAnalyzer
     else
       return undefined
 
-  extractModifiersFromRootWord: (word) =>
+  ###*
+  # Given a word extract any word modifiers that may exist on the word for the current analyzer's parsing options.
+  #
+  # @method extractModifiersFromWord
+  # @param {string} word
+  # @return {string} The extracted word with any word modifiers removed
+  ###
+  extractModifiersFromWord: (word) =>
     _.each(@LOCALIZED_WORD_STEM_AND_MODIFIER_REGEXP, (regexp) ->
       word = word.replace(regexp, '')
     )
     return word
 
+  ###*
+  # Given a word return it if it isn't a stop word. Return undefined if the word is a stop word.
+  #
+  # @method filterStopWord
+  # @param {string} word
+  # @return {string} the word passed in if it isn't a stop word. undefined if the word is a stop word
+  ###
   filterStopWord: (word) =>
     if @LOCALIZED_STOP_WORD_HASH[word]?
       return undefined

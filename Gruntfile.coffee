@@ -40,6 +40,9 @@ module.exports = (grunt) ->
       perf:
         files: ['test/perf/**/*.coffee', 'src/**/*.coffee']
         tasks: 'test:perf'
+      docs:
+        files: ['src/**/*.coffee']
+        tasks: 'yuidoc'
 
     yuidoc:
       compile:
