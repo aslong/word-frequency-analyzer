@@ -35,6 +35,9 @@ module.exports = (grunt) ->
 
     watch:
       tdd:
+        files: ['test/unit/**/*.coffee', 'test/perf/**/*.coffee', 'src/**/*.coffee']
+        tasks: 'test'
+      unit:
         files: ['test/unit/**/*.coffee', 'src/**/*.coffee']
         tasks: 'test:unit'
       perf:
