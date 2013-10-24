@@ -1,3 +1,10 @@
+###*
+# The test project
+#
+# @module binary-tree-additions
+# @author aslong
+###
+
 { AVLTree, BinarySearchTree } = require('binary-search-tree')
 
 # Append all elements in toAppend to array

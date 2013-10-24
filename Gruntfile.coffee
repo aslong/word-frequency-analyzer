@@ -50,6 +50,8 @@ module.exports = (grunt) ->
         options:
           paths: 'src/'
           outdir: 'docs'
+          extension: '.coffee'
+          syntaxtype: 'coffee'
 
   grunt.loadNpmTasks('grunt-exec')
   grunt.loadNpmTasks('grunt-contrib-clean')
