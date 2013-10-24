@@ -4,11 +4,11 @@
 
 # Word Frequency Analyzer
   
-The word frequency analyzer takes a string of text, parses it into words, and returns a sorted list by frequency of the words in the text.  
+The word frequency analyzer takes a string of text, parses it into words, and returns a list of words sorted by their frequency in the text.  
 
 The analyzer was written using [Coffeescript](http://coffeescript.org/) and [Node.js](http://nodejs.org/). [Grunt](http://gruntjs.com/) is used for management of compilation, starting/restarting of service, running of test suites using [Mocha](http://visionmedia.github.io/mocha/) and [Should.js](https://github.com/visionmedia/should.js/). [YUIDoc](http://yui.github.io/yuidoc/) is used for documentation generation.
 
-Provisioning for the service is done using [Chef](http://www.opscode.com/chef/). [Vagrant](http://www.vagrantup.com/) is used with [Chef](http://www.opscode.com/chef/) for creating an isolated and replicatable working environment. [Berkshelf](http://berkshelf.com/) is used for iterating on the cookbook and can
+Provisioning for the service is done using [Chef](http://www.opscode.com/chef/). [Vagrant](http://www.vagrantup.com/) is used with [Chef](http://www.opscode.com/chef/) for creating an isolated and replicable working environment. [Berkshelf](http://berkshelf.com/) is used for iterating on the cookbook and can
 be re-enabled in the [Vagrantfile](https://github.com/aslong/word-frequency-analyzer/blob/master/Vagrantfile).
 
 [Travis CI](https://travis-ci.org/) is used for continuous integration, currently for running test suites for latest build. [David-dm](https://david-dm.org/) is used for npm modules, both dev dependencies, and core dependencies.
