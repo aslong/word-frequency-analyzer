@@ -13,7 +13,7 @@ be re-enabled in the [Vagrantfile](https://github.com/aslong/word-frequency-anal
 
 [Travis CI](https://travis-ci.org/) is used for continuous integration, currently for running test suites for latest build. [David-dm](https://david-dm.org/) is used for npm modules, both dev dependencies, and core dependencies.
 
-### Installation
+## Installation
 
 The word frequency analyzer uses [Vagrant](http://www.vagrantup.com/) for building an isolated environment necessary for usage and development.
 Vagrant uses [VirtualBox](https://www.virtualbox.org/) to create VMs programmatically.
@@ -26,8 +26,9 @@ $ git clone git@github.com:aslong/word-frequency-analyzer.git
 $ cd word-frequency-analyzer
 $ vagrant up
 ```
+At this point you may want to grab a coffee. First run of ```vagrant up``` will need to download a base vm image, and provision the vm with our software dependencies.
 
-### Usage
+## Usage
 
 After installation is complete, ssh into our created vm and cd to the directory for the analyzer.
 
@@ -36,7 +37,7 @@ $ vagrant ssh
 $ cd word_frequency_analyzer
 ```
 
-#### Running Tests
+### Running Tests
 
 ```grunt``` is the primary command to use when running the various test suites. The suites are made up of unit and performance tests.
 You can run any suite in isolation or all together. There is also a watch mode that can be used to re-run the tests on file updates.
@@ -77,7 +78,7 @@ $ grunt test:perf
 $ grunt watch:perf
 ```
 
-#### Running Service
+### Running Service
 
 **Starting:**  
 
@@ -93,7 +94,7 @@ $ grunt restart
 ```
 Cleans the bin directory, compiles the source, and starts the node.js service.
 
-#### Building Documentation
+### Building Documentation
 
 **Generate documentation and start doc server:**  
 
@@ -108,3 +109,24 @@ After running, visit [here](http://localhost:9000) to view the documentation.
 $ grunt watch:docs
 ```
 Anytime a source file is updated the docs for it will be regenerated. You should only have to refresh your browser if you have ```grunt docs``` also running.
+
+
+### Cleaning up VM resources
+
+**Pause the VM**
+
+```
+$ vagrant suspend
+```
+
+**Shutdown the VM**
+
+```
+$ vagrant halt
+```
+
+**Shutdown and Delete the VM image**
+
+```
+$ vagrant destroy
+```
