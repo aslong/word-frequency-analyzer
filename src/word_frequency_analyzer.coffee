@@ -142,17 +142,45 @@ class WordFrequencyAnalyzer
     else
       return word
 
-# Default analyzeDocument function. Doesn't filter out stop words and uses the language EN
+###*
+# Analyze a string of text using the analyzer's defaults. Very limited parsing intellegence. Doesn't filter or try to get the roots of words. Only returns the list of sorted words.
+#
+# @method WordFrequencyAnalyzer.analyzeDocument
+# @static
+# @param {string} documentString the string of text to analyze
+# @param {number} desiredWordListLengthByFrequency the max number of words to return in the sorted list
+# @return {array} The list of words that occurred in the documentString, sorted by frequency
+###
 WordFrequencyAnalyzer.analyzeDocument = (documentString, desiredWordListLengthByFrequency) ->
   return WordFrequencyAnalyzer.analyzeDocumentWithOptions(documentString, desiredWordListLengthByFrequency)
 
+###*
+# Analyze a string of text and override any of the analyzer's default options. Only returns the list of sorted words.
+#
+# @method WordFrequencyAnalyzer.analyzeDocumentWithOptions
+# @static
+# @param {string} documentString the string of text to analyze
+# @param {number} desiredWordListLengthByFrequency the max number of words to return in the sorted list
+# @param {object} options any option that can be passed into the WordFrequencyAnalyzer's constructor
+# @return {array} The list of words that occurred in the documentString, sorted by frequency
+###
 WordFrequencyAnalyzer.analyzeDocumentWithOptions = (documentString, desiredWordListLengthByFrequency, options) ->
   englishAnalyzerFilterStopWordsDisabled = new WordFrequencyAnalyzer(options)
   { sortedWordsByFrequency } = englishAnalyzerFilterStopWordsDisabled.analyzeDocument(documentString, desiredWordListLengthByFrequency)
   return sortedWordsByFrequency
 
+###*
+# Update the frequency of a word by one using the structures returned from an analyzeDocument call.
+#
+# @method WordFrequencyAnalyzer.incrementWordFrequency
+# @static
+# @param {object} wordFrequencyHash a hash of words to frequency
+# @param {object} wordFrequencyTree a binary tree of nodes whose keys are frequencies and values are words with that frequency
+# @param {string} word the desired word for incrementing the frequency
+# @return {number} The updated frequency of the word that was incremented
+###
 WordFrequencyAnalyzer.incrementWordFrequency = (wordFrequencyHash, wordFrequencyTree, word) ->
-  # Set/Update the count for the occurance of this word
+  # Set/Update the count for the occurrence of this word
   wordFrequency = (wordFrequencyHash[word] ? 0) + 1
   wordFrequencyHash[word] = wordFrequency
 
