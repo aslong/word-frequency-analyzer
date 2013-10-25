@@ -4,14 +4,19 @@
 
 # Word Frequency Analyzer
   
-The word frequency analyzer takes a string of text, parses it into words, and returns a list of words sorted by their frequency in the text.  
+The word frequency analyzer takes a string of text, parses it into words, and returns a list of words sorted by their frequency in the text. It can support multiple languages, and has several options that can be toggled for determining word matches. 
 
-The analyzer was written using [Coffeescript](http://coffeescript.org/) and [Node.js](http://nodejs.org/). [Grunt](http://gruntjs.com/) is used for management of compilation, starting/restarting of service, running of test suites using [Mocha](http://visionmedia.github.io/mocha/) and [Should.js](https://github.com/visionmedia/should.js/). [YUIDoc](http://yui.github.io/yuidoc/) is used for documentation generation.
+**There are several ways to interface with the analyzer:**  
 
-Provisioning for the service is done using [Chef](http://www.opscode.com/chef/). [Vagrant](http://www.vagrantup.com/) is used with [Chef](http://www.opscode.com/chef/) for creating an isolated and replicable working environment. [Berkshelf](http://berkshelf.com/) is used for iterating on the cookbook and can
-be re-enabled in the [Vagrantfile](https://github.com/aslong/word-frequency-analyzer/blob/master/Vagrantfile).
+- Include the npm lib in your project
+- HTTP API
 
-[Travis CI](https://travis-ci.org/) is used for continuous integration, currently for running test suites for latest build. [David-dm](https://david-dm.org/) is used for npm modules, both dev dependencies, and core dependencies.
+The analyzer was written using [Coffeescript](http://coffeescript.org/) and [Node.js](http://nodejs.org/). [Grunt](http://gruntjs.com/) is used for the management of compilation, starting/restarting of services, running of test suites using [Mocha](http://visionmedia.github.io/mocha/) and [Should.js](https://github.com/visionmedia/should.js/), and documentation building. [YUIDoc](http://yui.github.io/yuidoc/) is the underlying generator used for documentation.
+
+Provisioning for the service is done using [Chef](http://www.opscode.com/chef/). [Vagrant](http://www.vagrantup.com/) is used with [Chef](http://www.opscode.com/chef/) for creating an isolated and replicable working environment. [Berkshelf](http://berkshelf.com/) is used for iterating on the chef cookbook and can
+be re-enabled in the [Vagrantfile](https://github.com/aslong/word-frequency-analyzer/blob/master/Vagrantfile) if needed.
+
+[Travis CI](https://travis-ci.org/) is used for continuous integration. It's currently configured for running test suites on new git commits. [David-dm](https://david-dm.org/) is used for version tracking of latest npm modules used in the project. This includes both dev dependencies, and core dependencies.
 
 ## Installation
 
@@ -111,7 +116,7 @@ $ grunt watch:docs
 Anytime a source file is updated the docs for it will be regenerated. You should only have to refresh your browser if you have ```grunt docs``` also running.
 
 
-### Cleaning up VM resources
+## Cleaning up VM resources
 
 **Pause the VM**
 
@@ -130,3 +135,20 @@ $ vagrant halt
 ```
 $ vagrant destroy
 ```
+
+
+## Contributing
+
+If there are any changes or improvements you want to this project, [create an issue](https://github.com/aslong/word-frequency-analyzer/issues) or fork the project and submit a [pull request](https://github.com/aslong/word-frequency-analyzer/pulls) with the intended change. Please include a description of the feature. Pull requests should have accompanying tests. Thank you for your help with improving this tool for others. 
+
+
+## License
+(The MIT License)
+
+Copyright (c) 2013 Andrew Long <aslong87@gmail.com>
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the 'Software'), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED 'AS IS', WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
