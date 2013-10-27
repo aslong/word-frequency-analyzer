@@ -1,16 +1,15 @@
 {
-  "name": "WordFrequencyAnalyzer",
+  "name": "word-frequency-analyzer",
   "description": "Given a document as a string, return a list of the most frequently used words sorted by frequency.",
   "version": "0.0.1",
-  "main": "./src/index.js",
+  "author":"Andrew Long <aslong87@gmail.com>",
+  "main": "./bin/src/word_frequency_analyzer.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/aslong/word-frequency-analyzer.git"
   },
   "scripts": {
-    "test": "grunt test",
-    "start": "grunt start",
-    "restart": "grunt restart"
+    "prepublish": "grunt prepublish"
   },
   "dependencies": {
     "async"              : "0.2.5",
@@ -20,8 +19,10 @@
     "underscore"         : "1.5.2"
   },
   "devDependencies": {
+    "codo"                 : "1.9.0",
     "grunt"                : "0.4.1",
     "grunt-exec"           : "0.4.2",
+    "grunt-cli"            : "0.1.9",
     "grunt-contrib-clean"  : "0.5.0",
     "grunt-contrib-coffee" : "0.7.0",
     "grunt-contrib-connect": "0.5.0",
@@ -32,7 +33,10 @@
     "should"               : "2.0.2",
     "yuidocjs"             : "0.3.46"
   },
-  "engine": {
+  "engines": {
     "node": ">=0.10.0"
+  },
+  "directories": {
+    "doc": "./docs"
   }
 }

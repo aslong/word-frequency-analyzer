@@ -1,0 +1,8 @@
+--name       "Word Frequency Analyzer"
+--readme     README.md
+--title      "Word Frequency Analyzer"
+--private
+--quiet
+--output-dir ./docs
+./src
+-

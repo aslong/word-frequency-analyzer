@@ -26,6 +26,10 @@ module.exports = (grunt) ->
         command: "DEBUG=* node ./bin/src/index.js"
         stdout: true
         stderr: true
+      codo:
+        command: "./node_modules/.bin/codo"
+        stdout: true
+        stderr: true
 
     mochacli:
       options:
@@ -44,8 +48,8 @@ module.exports = (grunt) ->
         files: ['test/perf/**/*.coffee', 'src/**/*.coffee']
         tasks: 'test:perf'
       docs:
-        files: ['src/**/*.coffee']
-        tasks: 'yuidoc'
+        files: ['README.md', 'src/**/*.coffee']
+        tasks: 'doc_generate'
 
     yuidoc:
       compile:
@@ -70,12 +74,11 @@ module.exports = (grunt) ->
   grunt.registerTask('test', ['mochacli'])
   grunt.registerTask('test:unit', ['mochacli:unit'])
   grunt.registerTask('test:perf', ['mochacli:perf'])
-  grunt.registerTask('docs', ['yuidoc', 'connect:server:keepalive'])
 
-  grunt.registerTask('start', "Boot up the word analyzer's web server", () ->
-    grunt.task.run('coffee:compile', 'exec:start_service')
-  )
+  grunt.registerTask('doc_generate', ['exec:codo'])
+  grunt.registerTask('docs', ['doc_generate', 'connect:server:keepalive'])
 
-  grunt.registerTask('restart', "Clean and Boot up the word analyzer's web server", () ->
-    grunt.task.run('clean', 'coffee:compile', 'exec:start_service')
-  )
+  grunt.registerTask('prepublish', ['clean', 'coffee:compile', 'doc_generate'])
+
+  grunt.registerTask('start', ['coffee:compile', 'exec:start_service'])
+  grunt.registerTask('restart', ['clean', 'coffee:compile', 'exec:start_service'])

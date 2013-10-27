@@ -1,5 +1,5 @@
 debug                 = require('debug')('test:wfa:WordFrequencyAnalyzer:spec')
-ERRORS                = require('../../src/constants/errors')
+ERRORS                = require('../../src/constants/word_frequency_analyzer/errors')
 WordFrequencyAnalyzer = require('../../src/word_frequency_analyzer')
 _                     = require('underscore')
 

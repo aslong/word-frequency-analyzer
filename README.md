@@ -11,7 +11,9 @@ The word frequency analyzer takes a string of text, parses it into words, and re
 - Include the npm lib in your project
 - HTTP API
 
-The analyzer was written using [Coffeescript](http://coffeescript.org/) and [Node.js](http://nodejs.org/). [Grunt](http://gruntjs.com/) is used for the management of compilation, starting/restarting of services, running of test suites using [Mocha](http://visionmedia.github.io/mocha/) and [Should.js](https://github.com/visionmedia/should.js/), and documentation building. [YUIDoc](http://yui.github.io/yuidoc/) is the underlying generator used for documentation.
+Documentation can be viewed [here](http://coffeedoc.info/github/aslong/word-frequency-analyzer/master/).
+
+The analyzer was written using [Coffeescript](http://coffeescript.org/) and [Node.js](http://nodejs.org/). [Grunt](http://gruntjs.com/) is used for the management of compilation, starting/restarting of services, running of test suites using [Mocha](http://visionmedia.github.io/mocha/) and [Should.js](https://github.com/visionmedia/should.js/), and documentation building. [Codo](https://github.com/netzpirat/codo) is the underlying generator used for documentation.
 
 Provisioning for the service is done using [Chef](http://www.opscode.com/chef/). [Vagrant](http://www.vagrantup.com/) is used with [Chef](http://www.opscode.com/chef/) for creating an isolated and replicable working environment. [Berkshelf](http://berkshelf.com/) is used for iterating on the chef cookbook and can
 be re-enabled in the [Vagrantfile](https://github.com/aslong/word-frequency-analyzer/blob/master/Vagrantfile) if needed.
