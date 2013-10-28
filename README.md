@@ -10,7 +10,7 @@ You can alter how words are determined to be the same or significant by the pars
 
 * Case sensitivity
 * Filter stop words
-* Use word root
+* Use root of the word
 
 Multiple modes can be enabled at the same time. This allows for several different possible analyzers depending on your specific needs.
 
@@ -128,7 +128,7 @@ After running, visit [here](http://localhost:9000) to view the documentation.
 ```
 $ grunt watch:docs
 ```
-Anytime a source file is updated the docs for it will be regenerated. You should only have to refresh your browser if you have ```grunt docs``` also running.
+Anytime a source file is updated the docs for it will be regenerated. You should only have to refresh your browser to see the updates, assuming you have ```grunt docs``` also running.
 
 
 ## Cleaning up VM resources
