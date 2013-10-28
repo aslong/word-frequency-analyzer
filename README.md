@@ -23,7 +23,7 @@ Multiple modes can be enabled at the same time. This allows for several differen
 
 Documentation can be viewed [here](http://coffeedoc.info/github/aslong/word-frequency-analyzer/master/).
 
-But can also be built locally using [these steps](https://github.com/aslong/word-frequency-analyzer#building-documentation). The docs define the classes and modules available in the project.
+Can also be built locally using [these steps](https://github.com/aslong/word-frequency-analyzer#building-documentation). The docs define the classes and modules available in the project.
 
 ### Tools Used
 The analyzer was written using [Coffeescript](http://coffeescript.org/) and [Node.js](http://nodejs.org/). [Grunt](http://gruntjs.com/) is used for the management of compilation, starting/restarting of services, running of test suites using [Mocha](http://visionmedia.github.io/mocha/) and [Should.js](https://github.com/visionmedia/should.js/), and documentation building. [Codo](https://github.com/netzpirat/codo) is the underlying generator used for documentation.

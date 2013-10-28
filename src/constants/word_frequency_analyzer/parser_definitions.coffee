@@ -1,4 +1,4 @@
-# List of errors for the WordFrequencyAnalyzer
+# List of definitions for the WordFrequencyAnalyzer parser. Definitions returned are localized to the passed in language parameter.
 #
 # @mixin
 PARSER_DEFINITIONS =

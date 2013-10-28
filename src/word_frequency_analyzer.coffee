@@ -11,7 +11,7 @@ class WordFrequencyAnalyzer
   #
   # @param [Object] options defines parsing options to the analyzer
   # @option options [String] language (default: 'EN') defines the language of the words in the document
-  # @option options [Boolean] caseSensitivityEnabled (default: false) tells the parser to ignore case when determining if two words are the same word
+  # @option options [Boolean] caseSensitivityEnabled (default: false) tells the parser to consider case when determining if two words are the same word
   # @option options [Boolean] filterStopWords (default: false) tells the parser to remove stop words from the frequency analysis
   # @option options [Boolean] extractFullRootWord (default: false) tells the parser to extract the root word when determining whether words are the same
   constructor: (options={}) ->
@@ -24,23 +24,25 @@ class WordFrequencyAnalyzer
     @LOCALIZED_STOP_WORD_HASH = STOP_WORD_FILTER_HASH(@language)
     @LOCALIZED_WORD_STEM_AND_MODIFIER_REGEXP = WORD_STEM_AND_MODIFIER_REGEXP(@language)
 
-  # Given a document represented as a string return a list of the most frequently used words in the document,
+  # Given a document represented as a string, return a list of the most frequently used words in the document,
   # sorted by frequency from high to low. Can specify as the second parameter the number of words to return in 
   # the list.
   #
-  # @param [String] documentString A string of test to parse and analyze for word frequency
-  # @param [Number] desiredWordListLengthByFrequency The max length of the returned word list
+  # @param [String] documentString A string of text to parse and analyze for word frequency
+  # @param [Number] desiredWordListByFrequencyLength The max length of the returned word list
   # @return [Array<String>, Object, Object]
   #   <b>sortedWordsByFrequency</b> {Array<String>} The list of words that occurred in the documentString, sorted by frequency.
   #   <b>wordFrequencyTree</b> {Object} Tree structure where each node's key is the frequency and the values are words with
   #   that frequency.
   #   <b>wordFrequencyHash</b> {Object} Hash structure who's keys are words and values are frequencies.
-  analyzeDocument: (documentString, desiredWordListLengthByFrequency) =>
+  analyzeDocument: (documentString, desiredWordListByFrequencyLength) =>
     if not documentString?
       throw new Error(ERRORS.MISSING_DOCUMENT_PARAM())
 
     documentCharCount = documentString.length
-    numberWordsToReturn = desiredWordListLengthByFrequency ? documentCharCount
+    # Always ensure that if there isn't a desiredWordListByFrequencyLength that we at least return all the potential words that
+    # are found in the documentString.
+    numberWordsToReturn = desiredWordListByFrequencyLength ? documentCharCount
 
     wordFrequencyTree = new ReversibleAVLTree()
     wordFrequencyHash = {}
@@ -57,16 +59,18 @@ class WordFrequencyAnalyzer
         # we shouldn't parse the chars out and try to process something that is probably garbage characters.
         if nonStopCharFound
           newWord = @extractWord(documentString, startPos, currentIndex)
-        # Reset our word start pointer to find the next word. Also set that we haven't seen a valid word char.
+        # Reset our word start pointer to look for the start of the next word. 
         startPos = currentIndex + 1
+        # Also set that we haven't seen a valid word char.
         nonStopCharFound = false
       # Are we at the end of the document but haven't found the end of a word, if so this must be the end of
-      # the last word in the whole document.
+      # the last word in the whole document. Pass the rest of the string to extractWord.
       else if (currentIndex + 1 is documentCharCount)
         newWord = @extractWord(documentString, startPos, documentCharCount)
       else
         nonStopCharFound = true
 
+      # If we have a valid new word, increment it's frequency and update the highestFrequency if the new word is higher
       if newWord?
         newWordFrequency = WordFrequencyAnalyzer.incrementWordFrequency(wordFrequencyHash, wordFrequencyTree, newWord)
         highestFrequency = newWordFrequency if highestFrequency < newWordFrequency
@@ -89,8 +93,8 @@ class WordFrequencyAnalyzer
   extractWord: (documentString, startIndex, endIndex) =>
     word = documentString.substring(startIndex, endIndex)
 
-    if @caseSensitivityEnabled
-      word = word.toLowerCase()
+    if not @caseSensitivityEnabled
+      word = @removeCaseFromWord(word)
 
     if @extractFullRootWordEnabled
       word = @extractModifiersFromWord(word)
@@ -103,7 +107,14 @@ class WordFrequencyAnalyzer
     else
       return undefined
 
-  # Given a word extract any word modifiers that may exist on the word for the current analyzer's parsing options.
+  # Given a word, remove any upper case characters that may exist and return the resulting string.
+  #
+  # @param [String] word the word to remove upper case characters from
+  # @return [String] the word passed in with any upper case characters removed
+  removeCaseFromWord: (word) =>
+    return word.toLowerCase()
+
+  # Given a word, extract any word modifiers that may exist on the word for the current analyzer's parsing options.
   #
   # @param [String] word the word to extract any modifiers from
   # @return [String] The extracted word with any word modifiers removed
@@ -113,7 +124,7 @@ class WordFrequencyAnalyzer
     )
     return word
 
-  # Given a word return it if it isn't a stop word. Return undefined if the word is a stop word.
+  # Given a word, return it if it isn't a stop word. Return undefined if the word is a stop word.
   #
   # @param [String] word the word to possibly fiter out if it is a stop word
   # @return [String] the word passed in if it isn't a stop word. undefined if the word is a stop word
@@ -126,20 +137,20 @@ class WordFrequencyAnalyzer
   # Analyze a string of text using the analyzer's defaults. Very limited parsing intellegence. Doesn't filter or try to get the roots of words. Only returns the list of sorted words.
   #
   # @param [String] documentString the string of text to analyze
-  # @param [Number] desiredWordListLengthByFrequency the max number of words to return in the sorted list
+  # @param [Number] desiredWordListByFrequencyLength the max number of words to return in the sorted list
   # @return [Array<String>] The list of words that occurred in the documentString, sorted by frequency
-  @analyzeDocument: (documentString, desiredWordListLengthByFrequency) ->
-    return @analyzeDocumentWithOptions(documentString, desiredWordListLengthByFrequency)
+  @analyzeDocument: (documentString, desiredWordListByFrequencyLength) ->
+    return @analyzeDocumentWithOptions(documentString, desiredWordListByFrequencyLength)
 
   # Analyze a string of text and override any of the analyzer's default options. Only returns the list of sorted words.
   #
   # @param [String] documentString the string of text to analyze
-  # @param [Number] desiredWordListLengthByFrequency the max number of words to return in the sorted list
+  # @param [Number] desiredWordListByFrequencyLength the max number of words to return in the sorted list
   # @param [Object] options any option that can be passed into the WordFrequencyAnalyzer's constructor
   # @return [Array<String>] The list of words that occurred in the documentString, sorted by frequency
-  @analyzeDocumentWithOptions: (documentString, desiredWordListLengthByFrequency, options) ->
+  @analyzeDocumentWithOptions: (documentString, desiredWordListByFrequencyLength, options) ->
     englishAnalyzerFilterStopWordsDisabled = new @(options)
-    { sortedWordsByFrequency } = englishAnalyzerFilterStopWordsDisabled.analyzeDocument(documentString, desiredWordListLengthByFrequency)
+    { sortedWordsByFrequency } = englishAnalyzerFilterStopWordsDisabled.analyzeDocument(documentString, desiredWordListByFrequencyLength)
     return sortedWordsByFrequency
 
   # Update the frequency of a word by one using the structures returned from an analyzeDocument call.
