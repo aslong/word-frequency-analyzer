@@ -4,15 +4,28 @@
 
 # Word Frequency Analyzer
   
-The word frequency analyzer takes a string of text, parses it into words, and returns a list of words sorted by their frequency in the text. It can support multiple languages, and has several options that can be toggled for determining word matches. 
+The word frequency analyzer takes a string of text, parses it into words, and returns a list of words sorted by their frequency in the text. It can support multiple languages, and has several options that can be toggled for determining word matches. Currently the parser only supports english. Additional character sets can be added to enable other languages. 
+
+You can alter how words are determined to be the same or significant by the parser. Currently there is support for these modes:
+
+* Case sensitivity
+* Filter stop words
+* Use word root
+
+Multiple modes can be enabled at the same time. This allows for several different possible analyzers depending on your specific needs.
 
 **There are several ways to interface with the analyzer:**  
 
 - Include the npm lib in your project
 - HTTP API
 
+### Programming Interface
+
 Documentation can be viewed [here](http://coffeedoc.info/github/aslong/word-frequency-analyzer/master/).
 
+But can also be built locally using [these steps](https://github.com/aslong/word-frequency-analyzer#building-documentation). The docs define the classes and modules available in the project.
+
+### Tools Used
 The analyzer was written using [Coffeescript](http://coffeescript.org/) and [Node.js](http://nodejs.org/). [Grunt](http://gruntjs.com/) is used for the management of compilation, starting/restarting of services, running of test suites using [Mocha](http://visionmedia.github.io/mocha/) and [Should.js](https://github.com/visionmedia/should.js/), and documentation building. [Codo](https://github.com/netzpirat/codo) is the underlying generator used for documentation.
 
 Provisioning for the service is done using [Chef](http://www.opscode.com/chef/). [Vagrant](http://www.vagrantup.com/) is used with [Chef](http://www.opscode.com/chef/) for creating an isolated and replicable working environment. [Berkshelf](http://berkshelf.com/) is used for iterating on the chef cookbook and can
@@ -22,7 +35,7 @@ be re-enabled in the [Vagrantfile](https://github.com/aslong/word-frequency-anal
 
 ## Installation
 
-The word frequency analyzer uses [Vagrant](http://www.vagrantup.com/) for building an isolated environment necessary for usage and development.
+The word frequency analyzer uses [Vagrant](http://www.vagrantup.com/) for building an isolated environment with everything necessary for usage or development.
 Vagrant uses [VirtualBox](https://www.virtualbox.org/) to create VMs programmatically.
 
 1. [Install](https://www.virtualbox.org/wiki/Downloads) VirtualBox for your OS.
