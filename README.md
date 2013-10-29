@@ -17,7 +17,7 @@ Multiple modes can be enabled at the same time. This allows for several differen
 **There are several ways to interface with the analyzer:**  
 
 - Include the npm lib in your project
-- HTTP API
+- HTTP API (uses [cluster api](http://nodejs.org/api/cluster.html) to make n workers for n cores)
 
 ### Programming Interface
 
