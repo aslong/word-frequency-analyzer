@@ -16,7 +16,10 @@ Multiple modes can be enabled at the same time. This allows for several differen
 
 **There are several ways to interface with the analyzer:**  
 
-- Include the npm lib in your project
+- Include the [npm lib](https://npmjs.org/package/word-frequency-analyzer) in your project
+    ```
+    npm install word-frequency-analyzer
+    ```
 - HTTP API (uses [cluster api](http://nodejs.org/api/cluster.html) to make n workers for n cores)
 
 ### Programming Interface
