@@ -6,7 +6,7 @@ server         = require('../../src/index')
 should         = require('should')
 _              = require('underscore')
 
-PORT = 8000
+PORT = 5005
 
 #
 # WordFrequencyAnalyzer HTTP API
