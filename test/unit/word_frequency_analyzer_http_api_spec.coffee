@@ -6,6 +6,10 @@ server         = require('../../src/server')
 should         = require('should')
 _              = require('underscore')
 
+#Uncomment to test on the hosted http api
+#HOST = "wfa.andrewslong.com"
+#PORT = 80
+HOST = "localhost"
 PORT = 5005
 
 #
@@ -24,7 +28,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     it 'should return OK when the server is up', (done) ->
       options = 
         port: PORT,
-        hostname: 'localhost',
+        hostname: HOST,
         method: 'GET',
         path: '/ping'
 
@@ -42,7 +46,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     it 'should get a 501 if the method at path doesn\'t exist', (done) ->
       options = 
         port: PORT,
-        hostname: 'localhost',
+        hostname: HOST,
         method: 'POST',
         path: '/iDon\'tExist'
 
@@ -59,7 +63,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     it 'should get a 501 if the method used at path isn\'t \'POST\'', (done) ->
       options = 
         port: PORT,
-        hostname: 'localhost',
+        hostname: HOST,
         method: 'GET',
         path: '/analyzeDocument'
 
@@ -76,7 +80,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     it 'should get a 501 if the options header is not valid json', (done) ->
       options = 
         port: PORT,
-        hostname: 'localhost',
+        hostname: HOST,
         method: 'POST',
         path: '/analyzeDocument'
         headers:
@@ -95,7 +99,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     it 'should get an empty array response if no document data is sent', (done) ->
       options = 
         port: PORT,
-        hostname: 'localhost',
+        hostname: HOST,
         method: 'POST',
         path: '/analyzeDocument'
 
@@ -112,7 +116,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     it 'should get a successful response without any args specified', (done) ->
       options = 
         port: PORT,
-        hostname: 'localhost',
+        hostname: HOST,
         method: 'POST',
         path: '/analyzeDocument'
 
@@ -133,7 +137,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     it 'should get a successful response without any WordFrequencyAnalyzer options defined', (done) ->
       options = 
         port: PORT,
-        hostname: 'localhost',
+        hostname: HOST,
         method: 'POST',
         path: '/analyzeDocument?desiredWordListByFrequencyLength=3'
 
@@ -153,7 +157,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     it 'should get a successful response with one WordFrequencyAnalyzer options overridden', (done) ->
       options = 
         port: PORT,
-        hostname: 'localhost',
+        hostname: HOST,
         method: 'POST',
         path: '/analyzeDocument?desiredWordListByFrequencyLength=5'
         headers: {
@@ -178,7 +182,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     it 'should get a successful response with all WordFrequencyAnalyzer options defined', (done) ->
       options = 
         port: PORT,
-        hostname: 'localhost',
+        hostname: HOST,
         method: 'POST',
         path: '/analyzeDocument?desiredWordListByFrequencyLength=4'
         headers: {

@@ -30,8 +30,10 @@ else
     { pathname, query } = Url.parse(url, true)
 
     if pathname is "/ping"
+      response.writeHead(200)
       return response.end('OK')
     else if pathname is "/favicon.ico"
+      response.writeHead(404)
       return response.end()
 
     apiMethod = WordFrequencyAnalyzerHTTPApi[pathname]

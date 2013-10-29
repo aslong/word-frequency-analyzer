@@ -22,6 +22,9 @@ Multiple modes can be enabled at the same time. This allows for several differen
     ```
 - HTTP API (uses [cluster api](http://nodejs.org/api/cluster.html) to make n workers for n cores)
 
+
+There is a test endpoint available for the HTTP API at [wfa.andrewslong.com/](http://wfa.andrewslong.com/)
+
 ### Programming Interface
 
 Documentation can be viewed [here](http://coffeedoc.info/github/aslong/word-frequency-analyzer/master/).
