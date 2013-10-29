@@ -1,3 +1,5 @@
 .DS_Store
 .vagrant
 docs
+my_kitchen
+config
