@@ -8,3 +8,6 @@ version          '0.1.0'
 
 depends "nodejs", "~> 1.3.0"
 depends "npm", "~> 0.1.2"
+depends "sudo", "~> 2.2.2"
+depends "user", "~> 0.3.0"
+depends "git", "~> 2.7.0"

@@ -32,7 +32,7 @@ Can also be built locally using [these steps](https://github.com/aslong/word-fre
 The analyzer was written using [Coffeescript](http://coffeescript.org/) and [Node.js](http://nodejs.org/). [Grunt](http://gruntjs.com/) is used for the management of compilation, starting/restarting of services, running of test suites using [Mocha](http://visionmedia.github.io/mocha/) and [Should.js](https://github.com/visionmedia/should.js/), and documentation building. [Codo](https://github.com/netzpirat/codo) is the underlying generator used for documentation.
 
 Provisioning for the service is done using [Chef](http://www.opscode.com/chef/). [Vagrant](http://www.vagrantup.com/) is used with [Chef](http://www.opscode.com/chef/) for creating an isolated and replicable working environment. [Berkshelf](http://berkshelf.com/) is used for iterating on the chef cookbook and can
-be re-enabled in the [Vagrantfile](https://github.com/aslong/word-frequency-analyzer/blob/master/Vagrantfile) if needed.
+be re-enabled in the [Vagrantfile](https://github.com/aslong/word-frequency-analyzer/blob/master/Vagrantfile) if needed. Deployment of the service to [EC2](http://aws.amazon.com/ec2/) is done using [Capistrano](http://www.capistranorb.com/).
 
 [Travis CI](https://travis-ci.org/) is used for continuous integration. It's currently configured for running test suites on new git commits. [David-dm](https://david-dm.org/) is used for version tracking of latest npm modules used in the project. This includes both dev dependencies, and core dependencies.
 

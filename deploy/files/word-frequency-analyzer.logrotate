@@ -1,0 +1,12 @@
+/home/deployer/word_frequency_analyzer/shared/log/word-frequency-analyzer.log {
+        su deployer deployer
+        size 50M
+        missingok
+        copytruncate
+        rotate 2
+        compress
+        notifempty
+        sharedscripts
+        lastaction
+        endscript
+}
