@@ -20,6 +20,24 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
     server.close()
     done()
 
+  describe 'Health Tests', () ->
+    it 'should return OK when the server is up', (done) ->
+      options = 
+        port: PORT,
+        hostname: 'localhost',
+        method: 'GET',
+        path: '/ping'
+
+      req = http.request(options, (response) ->
+        response.statusCode.should.eql(200)
+        readStream response, false, (error, responseData) ->
+          should.not.exist(error)
+          responseData.should.eql('OK')
+          done()
+      )
+
+      req.end()
+
   describe 'Response Tests', () ->
     it 'should get a 501 if the method at path doesn\'t exist', (done) ->
       options = 

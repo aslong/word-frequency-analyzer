@@ -12,6 +12,9 @@ server = http.createServer (request, response) ->
   url = request.url
   { pathname, query } = Url.parse(url, true)
 
+  if pathname is "/ping"
+    return response.end('OK')
+
   apiMethod = WordFrequencyAnalyzerHTTPApi[pathname]
   if apiMethod?
     apiMethod(request, response, query)
