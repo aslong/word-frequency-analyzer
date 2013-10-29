@@ -1,36 +1,22 @@
-debug                 = require('debug')('wfa:index')
-http                  = require('http')
-Url                   = require('url')
-WordFrequencyAnalyzer = require('./word_frequency_analyzer')
+debug                        = require('debug')('wfa:index')
+ERRORS                       = require('./constants/word_frequency_analyzer/http_api_errors')
+http                         = require('http')
+Url                          = require('url')
+WordFrequencyAnalyzerHTTPApi = require('./word_frequency_analyzer_http_api')
 
-PORT = 8000
+{ readStream, sendErrorToStreamAsJSON, sendSuccessToStreamAsJSON } = require('./utils')
 
-###*
-# This is the main README for the documentation
-#
-# @class **README**
-# @module **README**
-###
+PORT = 5000
 
 server = http.createServer (request, response) ->
   url = request.url
   { pathname, query } = Url.parse(url, true)
 
-  if serverMethods[pathname]?
-    serverMethods[pathname](request, response, query)
+  apiMethod = WordFrequencyAnalyzerHTTPApi[pathname]
+  if apiMethod?
+    apiMethod(request, response, query)
   else
-    response.end(JSON.stringify('method doesnt exist'))
-
-serverMethods = 
-  '/analyzeDocument': (request, response, args) ->
-    documentString = ""
-    request.on 'data', (chunk) ->
-      documentString += chunk
-    request.on 'end', () ->
-      wfa = new WordFrequencyAnalyzer()
-      stats = wfa.analyzeDocument(documentString, args?.desiredWordListByFrequencyLength)
-
-      response.end(JSON.stringify(stats.sortedWordsByFrequency))
+    sendErrorToStreamAsJSON(response, ERRORS.METHOD_NOT_EXIST("method #{pathname} does not exist"))
 
 if require.main isnt module
   module.exports = server
