@@ -9,7 +9,8 @@
     "url": "https://github.com/aslong/word-frequency-analyzer.git"
   },
   "scripts": {
-    "prepublish": "grunt prepublish"
+    "prepublish": "grunt prepublish",
+    "test": "grunt test"
   },
   "dependencies": {
     "async"              : "0.2.5",
