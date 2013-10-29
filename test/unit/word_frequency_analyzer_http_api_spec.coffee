@@ -2,7 +2,7 @@ debug          = require('debug')('test:wfa:WordFrequencyAnalyzer:http_api_spec'
 ERRORS         = require('../../src/constants/word_frequency_analyzer/http_api_errors')
 http           = require('http')
 { readStream } = require('../../src/utils')
-server         = require('../../src/index')
+server         = require('../../src/server')
 should         = require('should')
 _              = require('underscore')
 

@@ -23,7 +23,7 @@ module.exports = (grunt) ->
 
     exec:
       start_service:
-        command: "DEBUG=* node ./bin/src/index.js"
+        command: "DEBUG=* node ./bin/src/server.js"
         stdout: true
         stderr: true
       codo:

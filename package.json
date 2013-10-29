@@ -3,7 +3,7 @@
   "description": "Given a document as a string, return a list of the most frequently used words sorted by frequency.",
   "version": "0.0.1",
   "author":"Andrew Long <aslong87@gmail.com>",
-  "main": "./bin/src/word_frequency_analyzer.js",
+  "main": "./bin/src/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/aslong/word-frequency-analyzer.git"
