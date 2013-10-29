@@ -30,15 +30,16 @@ else
     { pathname, query } = Url.parse(url, true)
 
     if pathname is "/ping"
+      debug("Health Check")
       response.writeHead(200)
       return response.end('OK')
     else if pathname is "/favicon.ico"
       response.writeHead(404)
       return response.end()
 
+    debug("Request for method #{pathname}")
     apiMethod = WordFrequencyAnalyzerHTTPApi[pathname]
     if apiMethod?
-      debug("Request for method #{pathname}")
       return apiMethod(request, response, query)
     else
       return sendErrorToStreamAsJSON(response, ERRORS.METHOD_NOT_EXIST("method #{pathname} does not exist"))
