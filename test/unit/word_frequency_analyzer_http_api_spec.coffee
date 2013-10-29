@@ -6,7 +6,7 @@ server         = require('../../src/server')
 should         = require('should')
 _              = require('underscore')
 
-USE_LOCAL = false
+USE_LOCAL = true
 
 HOST = if USE_LOCAL then "localhost" else "wfa.andrewslong.com"
 PORT = if USE_LOCAL then 5005 else 80
