@@ -2,6 +2,10 @@ default['nodejs']['version'] = '0.10.21'
 default['nodejs']['npm'] = '1.3.5'
 default['npm']['version'] = default['nodejs']['npm']
 
+#default[:word_frequency_analyzer][:user] = "deployer"
+#default[:word_frequency_analyzer][:group] = "deployer"
+#default[:word_frequency_analyzer][:password] = "$1$GlsorECa$xJu6m2vrknzdKjR2HpawI1"
+
 default[:word_frequency_analyzer][:user] = "vagrant"
 default[:word_frequency_analyzer][:group] = "vagrant"
 default[:word_frequency_analyzer][:password] = "$1$CVO0FRa0$fLy7d3zG7/WugH4n44nFP1"
