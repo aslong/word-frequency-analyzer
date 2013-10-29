@@ -6,26 +6,26 @@ server         = require('../../src/server')
 should         = require('should')
 _              = require('underscore')
 
-#Uncomment to test on the hosted http api
-#HOST = "wfa.andrewslong.com"
-#PORT = 80
-HOST = "localhost"
-PORT = 5005
+USE_LOCAL = false
+
+HOST = if USE_LOCAL then "localhost" else "wfa.andrewslong.com"
+PORT = if USE_LOCAL then 5005 else 80
 
 #
 # WordFrequencyAnalyzer HTTP API
 #
 describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
   before (done) ->
-    server.listen(PORT)
+    server.listen(PORT) if USE_LOCAL
     done()
 
   after (done) ->
-    server.close()
+    server.close() if USE_LOCAL
     done()
 
   describe 'Health Tests', () ->
     it 'should return OK when the server is up', (done) ->
+      this.timeout(6000) if not USE_LOCAL
       options = 
         port: PORT,
         hostname: HOST,
@@ -44,6 +44,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
 
   describe 'Response Tests', () ->
     it 'should get a 501 if the method at path doesn\'t exist', (done) ->
+      this.timeout(6000) if not USE_LOCAL
       options = 
         port: PORT,
         hostname: HOST,
@@ -61,6 +62,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
       req.end()
 
     it 'should get a 501 if the method used at path isn\'t \'POST\'', (done) ->
+      this.timeout(6000) if not USE_LOCAL
       options = 
         port: PORT,
         hostname: HOST,
@@ -78,6 +80,7 @@ describe 'WordFrequencyAnalyzer HTTP api Spec', () ->
       req.end()
 
     it 'should get a 501 if the options header is not valid json', (done) ->
+      this.timeout(6000) if not USE_LOCAL
       options = 
         port: PORT,
         hostname: HOST,
