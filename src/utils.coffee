@@ -1,3 +1,4 @@
+debug = require('debug')('wfa:utils')
 # Various utility functions
 #
 # @mixin
@@ -45,5 +46,7 @@ Utils =
       'Content-Type': 'application/json'
     })
     stream.end(error)
+    debug("Sent error #{error} to stream")
+
 
 module.exports = Utils
