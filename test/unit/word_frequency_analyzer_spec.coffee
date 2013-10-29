@@ -28,21 +28,23 @@ describe 'WordFrequencyAnalyzer Spec', ->
         wordList.should.include('different')
 
       describe 'extractFullRootWord', () ->
-        it 'should return a word with punction before or after as still being the same word', () ->
-          words = ["surround.", ".surround", " surround", ".surround.", ". surround", "'surround'"]
-          document = words.join(' ')
-          wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 5, { extractFullRootWord: true })
-          _.isArray(wordList).should.eql.true
-          wordList.should.have.length(1)
-          wordList.should.include('surround')
-
-        it 'should return a word with punction before or after as still being the same word', () ->
+        it 'should return a word with punction before or after as still being the same word with extract full root word enabled', () ->
           words = ["surround.", ".surround", " surround", ".surround.", ". surround", "'surround'", "surround's"]
           document = words.join(' ')
           wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 5, { extractFullRootWord: true })
           _.isArray(wordList).should.eql.true
           wordList.should.have.length(1)
           wordList.should.include('surround')
+
+        it 'should return a word with punction before or after as being a different word with extract full root word is not enabled', () ->
+          words = ["surround.", ".surround", " surround", ".surround.", ". surround", "'surround'", "surround's"]
+          document = words.join(' ')
+          wordList = WordFrequencyAnalyzer.analyzeDocumentWithOptions(document, 5, { extractFullRootWord: false })
+          _.isArray(wordList).should.eql.true
+          wordList.should.have.length(3)
+          wordList.should.include('surround')
+          wordList.should.include('\'surround\'')
+          wordList.should.include('surround\'s')
 
       describe 'caseSensitivityEnabled', () ->
         sameWordCases = ["Same", "same", "saMe", "saME", "samE"]
@@ -144,3 +146,24 @@ describe 'WordFrequencyAnalyzer Spec', ->
         wordList[0].should.eql('test')
         wordList[1].should.eql('the')
         wordList[2].should.eql('document')
+
+    describe 'parserOptionsId verification', () ->
+      it "should return the right id when defaults are applied", () ->
+        expected = 'EN'
+        wfa = new WordFrequencyAnalyzer()
+        wfa.getParserOptionsId().should.eql(expected)
+        WordFrequencyAnalyzer.getParserOptionsId().should.eql(expected)
+
+      it "should return the right id when defaults are applied but some settings are overridden", () ->
+        options = { filterStopWords: true, extractFullRootWord: true }
+        wfa = new WordFrequencyAnalyzer(options)
+        expected = 'EN-filterStopWordsEnabled-extractFullRootWordEnabled'
+        wfa.getParserOptionsId().should.eql(expected)
+        WordFrequencyAnalyzer.getParserOptionsId(options).should.eql(expected)
+
+      it "should return the right id when defaults are applied but settings are overridden", () ->
+        options = { filterStopWords: true, caseSensitivityEnabled: true, extractFullRootWord: true }
+        expected = 'EN-caseSensitivityEnabled-filterStopWordsEnabled-extractFullRootWordEnabled'
+        wfa = new WordFrequencyAnalyzer(options)
+        wfa.getParserOptionsId().should.eql(expected)
+        WordFrequencyAnalyzer.getParserOptionsId(options).should.eql(expected)

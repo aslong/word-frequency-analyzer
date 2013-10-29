@@ -1,8 +1,9 @@
-debug                 = require('debug')('wfa:WordFrequencyAnalyzer')
-ERRORS                = require('./constants/word_frequency_analyzer/errors')
-{ ReversibleAVLTree } = require('./binary_tree_additions')
-_                     = require('underscore')
+debug                   = require('debug')('wfa:WordFrequencyAnalyzer')
+ERRORS                  = require('./constants/word_frequency_analyzer/errors')
+{ ReversibleAVLTree }   = require('./binary_tree_additions')
+_                       = require('underscore')
 
+{ PARSER_OPTIONS_KEYS, PARSER_OPTIONS_DEFAULTS }                         = require('./constants/word_frequency_analyzer/parser_options')
 { STOP_CHAR_HASH, STOP_WORD_FILTER_HASH, WORD_STEM_AND_MODIFIER_REGEXP } = require('./constants/word_frequency_analyzer/parser_definitions')
 
 # Analyzer that takes a string of text and parses the words from it and records their frequency.
@@ -15,14 +16,25 @@ class WordFrequencyAnalyzer
   # @option options [Boolean] filterStopWords (default: false) tells the parser to remove stop words from the frequency analysis
   # @option options [Boolean] extractFullRootWord (default: false) tells the parser to extract the root word when determining whether words are the same
   constructor: (options={}) ->
-    @language = options.language ? 'EN'
-    @caseSensitivityEnabled = options.caseSensitivityEnabled ? false
-    @filterStopWordsEnabled = options.filterStopWords ? false
-    @extractFullRootWordEnabled = options.extractFullRootWord ? false
+    @language = options[PARSER_OPTIONS_KEYS.LANGUAGE] ? PARSER_OPTIONS_DEFAULTS[PARSER_OPTIONS_KEYS.LANGUAGE]
+    @caseSensitivityEnabled = options[PARSER_OPTIONS_KEYS.CASE_SENSITIVITY] ? PARSER_OPTIONS_DEFAULTS[PARSER_OPTIONS_KEYS.CASE_SENSITIVITY]
+    @filterStopWordsEnabled = options[PARSER_OPTIONS_KEYS.FILTER_STOP_WORDS] ? PARSER_OPTIONS_DEFAULTS[PARSER_OPTIONS_KEYS.FILTER_STOP_WORDS]
+    @extractFullRootWordEnabled = options[PARSER_OPTIONS_KEYS.EXTRACT_FULL_ROOT_WORD] ? PARSER_OPTIONS_DEFAULTS[PARSER_OPTIONS_KEYS.EXTRACT_FULL_ROOT_WORD]
 
     @LOCALIZED_STOP_CHAR_HASH = STOP_CHAR_HASH(@language)
     @LOCALIZED_STOP_WORD_HASH = STOP_WORD_FILTER_HASH(@language)
     @LOCALIZED_WORD_STEM_AND_MODIFIER_REGEXP = WORD_STEM_AND_MODIFIER_REGEXP(@language)
+
+  # Get an generic id from the current parser's options
+  #
+  # @return [String] The generic id for the given parser with these options
+  getParserOptionsId: () =>
+    options = {}
+    options[PARSER_OPTIONS_KEYS.LANGUAGE] = @language
+    options[PARSER_OPTIONS_KEYS.CASE_SENSITIVITY] = @caseSensitivityEnabled
+    options[PARSER_OPTIONS_KEYS.FILTER_STOP_WORDS] = @filterStopWordsEnabled
+    options[PARSER_OPTIONS_KEYS.EXTRACT_FULL_ROOT_WORD] = @extractFullRootWordEnabled
+    return WordFrequencyAnalyzer.getParserOptionsId(options)
 
   # Given a document represented as a string, return a list of the most frequently used words in the document,
   # sorted by frequency from high to low. Can specify as the second parameter the number of words to return in 
@@ -170,5 +182,16 @@ class WordFrequencyAnalyzer
     wordFrequencyTree.insert(wordFrequency, word)
 
     return wordFrequency
+
+  # Get an generic id from a WordFrequencyAnalyzer parser's options object
+  #
+  # @param [Object] options a hash of words to frequency
+  # @return [String] The generic id for the given parser with these options
+  @getParserOptionsId: (options={}) ->
+    language = if options[PARSER_OPTIONS_KEYS.LANGUAGE]? then options[PARSER_OPTIONS_KEYS.LANGUAGE] else PARSER_OPTIONS_DEFAULTS[PARSER_OPTIONS_KEYS.LANGUAGE]
+    caseSensitivity = if options[PARSER_OPTIONS_KEYS.CASE_SENSITIVITY] then '-caseSensitivityEnabled' else ''
+    filterStopWords = if options[PARSER_OPTIONS_KEYS.FILTER_STOP_WORDS] then '-filterStopWordsEnabled' else ''
+    extractFullRootWord = if options[PARSER_OPTIONS_KEYS.EXTRACT_FULL_ROOT_WORD] then '-extractFullRootWordEnabled' else ''
+    return "#{language}#{caseSensitivity}#{filterStopWords}#{extractFullRootWord}"
 
 module.exports = WordFrequencyAnalyzer
