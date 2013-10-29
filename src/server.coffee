@@ -1,3 +1,4 @@
+debug                        = require('debug')('wfa:server')
 ERRORS                       = require('./constants/word_frequency_analyzer/http_api_errors')
 http                         = require('http')
 Url                          = require('url')
