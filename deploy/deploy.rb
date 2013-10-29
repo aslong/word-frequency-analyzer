@@ -9,7 +9,7 @@ set :runner, 'deployer'
 set :keep_releases, 5
 
 set :scm, :git
-#set :deploy_via, :remote_cache
+set :deploy_via, :remote_cache
 ssh_options[:forward_agent] = true
 
 # multistage
@@ -50,7 +50,7 @@ namespace :word_frequency_analyzer do
   end
 
   task :compile do
-    run "grunt clean && grunt coffee:compile"
+    run "cd #{current_release} && grunt clean && grunt coffee:compile"
   end
 
   task :npm_full_install do
@@ -83,5 +83,5 @@ before 'restart', 'word_frequency_analyzer:restart'
 before 'start', 'word_frequency_analyzer:start'
 before 'stop', 'word_frequency_analyzer:stop'
 
-after 'deploy', 'word_frequency_analyzer:compile', 'word_frequency_analyzer:node_module_copy'
-after 'deploy:cold', 'word_frequency_analyzer:setuplogs', 'word_frequency_analyzer:install_init_files'
+after 'deploy', 'word_frequency_analyzer:node_module_copy', 'word_frequency_analyzer:compile', 'deploy:cleanup'
+after 'deploy:cold', 'word_frequency_analyzer:setuplogs', 'word_frequency_analyzer:install_init_files', 'word_frequency_analyzer:npm_full_install'
