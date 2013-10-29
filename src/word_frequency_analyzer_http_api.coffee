@@ -35,7 +35,7 @@ WordFrequencyAnalyzerHTTPApi =
         if error?
           return sendErrorToStreamAsJSON(response, ERRORS.INCOMING_STREAM_PARSE_ERROR(error.message))
 
-        # Pull of any parser options from the options header, and parse them from JSON
+        # Pull off any parser options from the options header, and parse them from JSON
         options = request.headers[OPTIONS_HEADER_KEY]
         try
           if options? and typeof(options) is "string"
