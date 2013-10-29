@@ -29,6 +29,9 @@ current_analyzers[default_wfa.getParserOptionsId()] = default_wfa
 #
 # @mixin
 WordFrequencyAnalyzerHTTPApi =
+  '/': (request, response, args) ->
+    return response.end("<html><body><h1>Welcome to the Word Frequency Analyzer</h1>Please visit the <a href='http://coffeedoc.info/github/aslong/word-frequency-analyzer/master/mixins/WordFrequencyAnalyzerHTTPApi.html'>HTTP API Docs</a> for usage.</body></html>")
+
   '/analyzeDocument': (request, response, args) ->
     if request.method is 'POST'
       readStream request, false, (error, documentString) ->
