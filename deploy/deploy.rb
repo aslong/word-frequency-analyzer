@@ -46,7 +46,7 @@ namespace :word_frequency_analyzer do
   end
 
   task :log do
-    run "cd /home/deployer/word_frequency_analyzer/shared/log/ && tail -F word_frequency_analyzer.log"
+    run "cd /home/deployer/word_frequency_analyzer/shared/log/ && tail -F word-frequency-analyzer.log"
   end
 
   task :compile do
